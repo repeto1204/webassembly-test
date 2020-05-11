@@ -1,0 +1,43 @@
+{
+  "name": "webassembly-test",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/repeto1204/webassembly-test.git",
+  "author": "jjh <repeto1204@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@babel/plugin-transform-runtime": "^7.9.6",
+    "@types/react": "^16.9.34",
+    "@types/react-dom": "^16.9.7",
+    "assemblyscript": "^0.9.4",
+    "babel-polyfill": "^6.26.0",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "typescript": "^3.8.3",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.10.3"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.9.6",
+    "@babel/preset-env": "^7.9.6",
+    "@babel/preset-react": "^7.9.4",
+    "@babel/preset-typescript": "^7.9.0",
+    "babel-loader": "^8.1.0",
+    "html-webpack-plugin": "^4.3.0"
+  },
+  "scripts": {
+    "rs": "wasm-pack build rust --out-dir ../public --out-name rswasm",
+    "rsstart": "yarn rs && yarn dev",
+    "as": "yarn asbuild:untouched && yarn asbuild:optimized",
+    "asstart": "yarn as && yarn dev",
+    "gostart": "yarn go && yarn dev",
+    "go": "GOOS=js GOARCH=wasm go build -o ./public/index.wasm ./go/src",
+    "gobuild": "GOOS=js GOARCH=wasm go build -o ./build/index.wasm ./go/src",
+    "dev": "webpack-dev-server",
+    "build": "webpack",
+    "asbuild:optimized": "asc assembly/index.ts -b public/index.wasm -t public/index.wat --sourceMap --validate --optimize",
+    "asbuild:untouched": "asc assembly/index.ts -b public/index.wasm -t public/index.wat --sourceMap --validate --debug"
+  }
+}
